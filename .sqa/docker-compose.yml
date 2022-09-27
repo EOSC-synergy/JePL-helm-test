@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  kubectl:
+    environment:
+      - SOCKS_TUNNEL_PORT
+      - K8S_API_PORT
+      - KUBECTL_ROLLOUT_TIMEOUT
+    build:
+      context: "./.sqa/"
+      dockerfile: "./Dockerfile"
+      #cache_from:
+      #  - "alpine/helm:3.9.4"
+    image: "eosc-synergy/helm:3.9.4"
+    container_name: "helm"
+    hostname: "helm"
+    volumes:
+     - ./:/examples
+     - /jenkins/workspace:/jenkins/workspace
+    entrypoint: [ sleep, infinity ]
