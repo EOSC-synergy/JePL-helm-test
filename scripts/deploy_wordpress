@@ -34,11 +34,11 @@ echo ""
 echo "Add repository..."
 helm repo add bitnami https://charts.bitnami.com/bitnami
 echo "List all available releases"
-helm list
+helm list -a
 echo "Install chart wordpress"
-if ! helm --kube-insecure-skip-tls-verify -n wordpress-test install wordpress-test bitnami/wordpress --create-namespace --wait --wait-for-jobs --timeout ${KUBECTL_ROLLOUT_TIMEOUT}; then
+if ! helm -n wordpress-test install wordpress-test bitnami/wordpress --create-namespace --wait --wait-for-jobs --timeout ${KUBECTL_ROLLOUT_TIMEOUT}; then
     echo "Someting went wrong!.. undo the current rollout and rollback to the previous revision."
-    helm --kube-insecure-skip-tls-verify -n wordpress-test delete wordpress-test --wait --timeout ${KUBECTL_ROLLOUT_TIMEOUT}
+    helm -n wordpress-test uninstall wordpress-test --wait --timeout ${KUBECTL_ROLLOUT_TIMEOUT}
     kill ${SSH_PID}
     exit 1
 fi
@@ -46,11 +46,11 @@ fi
 echo ""
 echo "### Deployment finished successfuly"
 echo ""
-helm --kube-insecure-skip-tls-verify -n wordpress-test status --show-desc
+helm -n "wordpress-test" status --show-desc
 
 echo ""
 echo "### Delete the deployment"
 echo ""
-helm --kube-insecure-skip-tls-verify -n wordpress-test delete wordpress-test --wait --timeout ${KUBECTL_ROLLOUT_TIMEOUT}
+helm -n "wordpress-test" uninstall wordpress-test --wait --timeout ${KUBECTL_ROLLOUT_TIMEOUT}
 
 kill ${SSH_PID}
