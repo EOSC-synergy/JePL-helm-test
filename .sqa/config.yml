@@ -23,10 +23,7 @@ sqa_criteria:
       helm:
         container: helm
         commands:
-          - helm repo add bitnami https://charts.bitnami.com/bitnami
-          - helm list
-          - helm install wordpress-test bitnami/wordpress
-          - helm delete 
+          - /examples/scripts/deploy_wordpress
 
 environment:
   SOCKS_TUNNEL_PORT: "38080"
