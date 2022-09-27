@@ -36,7 +36,7 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 echo "List all available releases"
 helm search repo bitnami/wordpress -l
 echo "Install chart wordpress"
-if ! helm -n wordpress-test install wordpress-test --set mariadb.auth.rootPassword="${GIT_PASSWORD}" bitnami/wordpress --create-namespace --wait --wait-for-jobs --timeout ${KUBECTL_ROLLOUT_TIMEOUT}; then
+if ! helm -n wordpress-test install wordpress-test --set mariadb.auth.rootPassword="${GIT_PASSWORD}" bitnami/wordpress --create-namespace --wait --timeout ${KUBECTL_ROLLOUT_TIMEOUT}; then
     echo "Someting went wrong!.. undo the current rollout and rollback to the previous revision."
     helm -n wordpress-test list -a
     helm -n wordpress-test uninstall wordpress-test --wait --timeout ${KUBECTL_ROLLOUT_TIMEOUT}
